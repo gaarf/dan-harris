@@ -5,7 +5,7 @@ export function toast(message: string, token = 'surface') {
 }
 
 export function sum(...a: number[]) {
-  return a.reduce((m, v) => m + v, 0);
+  return a.reduce((m, v) => m + (v || 0), 0);
 }
 
 export function rollDie(max = 6) {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { sum } from './utils';
+import { sum, anotherRoll } from './utils';
 
 describe('sum', () => {
 	it('can do math', () => {
@@ -12,5 +12,13 @@ describe('sum', () => {
 	});
 	it('can handle negatives', () => {
 		expect(sum(1, -1)).toBe(0);
+	});
+});
+
+describe('anotherRoll', () => {
+	it('never returns arg', () => {
+		for (let i = 1; i < 7; i++) {
+			expect(anotherRoll(i)).not.toBe(i);
+		}
 	});
 });

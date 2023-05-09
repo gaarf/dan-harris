@@ -11,7 +11,10 @@ const config = {
   }),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		paths: {
+			base: '/my-skeleton-app'
+		}
 	}
 };
 

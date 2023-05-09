@@ -1,0 +1,104 @@
+.Die {
+  --size: 25vw;
+  width: var(--size);
+  @apply relative aspect-square;
+
+  transform-style: preserve-3d;
+  transform-origin: center center calc(var(--size) / 2);
+  transition: transform 0.4s ease-out;
+
+  &:has(li.up:nth-child(1)) {
+    transform: translate(8%, -6%) rotate3d(1, 1, 0, 5deg);
+  }
+
+  &:has(li.up:nth-child(2)) {
+    transform: translate(0%, 100%) rotate3d(0, 1, 1, 185deg) rotateX(-4deg) rotateY(-4deg);
+  }
+
+  &:has(li.up:nth-child(3)) {
+    transform: translate(100%, 0%) rotate3d(0, 1, 0, 95deg) rotateZ(5deg);
+  }
+
+  &:has(li.up:nth-child(4)) {
+    transform: translate(100%, 0%) rotate3d(1, 0, 1, 185deg) rotateX(-4deg) rotateY(-4deg);
+  }
+
+  &:has(li.up:nth-child(5)) {
+    transform: translate(0, 100%) rotate3d(1, 0, 0, -95deg) rotateX(10deg) rotateZ(5deg);
+  }
+
+  &:has(li.up:nth-child(6)) {
+    transform: translate(-6%, 6%) rotate3d(1, 1, 0, 185deg);
+  }
+
+  > li {
+    @apply absolute inset-0;
+    @apply flex items-center justify-center;
+    @apply border text-4xl;
+    @apply border-white bg-gray-100;
+    backface-visibility: hidden;
+
+    > span {
+      @apply absolute aspect-square h-[15%];
+      @apply rounded-full bg-black;
+      &:nth-child(1) {
+        right: 20%;
+        top: 20%;
+      }
+      &:nth-child(2) {
+        left: 20%;
+        bottom: 20%;
+      }
+      &:nth-child(3) {
+        left: 20%;
+        top: 20%;
+      }
+      &:nth-child(4) {
+        right: 20%;
+        bottom: 20%;
+      }
+    }
+
+    &:nth-child(1) {
+      > span:nth-child(1) {
+        right: unset;
+        top: unset;
+      }
+    }
+
+    &:nth-child(2) {
+      transform-origin: top;
+      transform: translateY(100%) rotateX(-90deg);
+    }
+
+    &:nth-child(3) {
+      transform-origin: right;
+      transform: translateX(-100%) rotateY(-90deg);
+      > span:nth-child(3) {
+        left: unset;
+        top: unset;
+      }
+    }
+
+    &:nth-child(4) {
+      transform-origin: left;
+      transform: translateX(100%) rotateY(90deg);
+    }
+
+    &:nth-child(5) {
+      transform-origin: bottom;
+      transform: translateY(-100%) rotateX(90deg);
+    }
+
+    &:nth-child(6) {
+      transform-origin: center;
+      transform: rotateY(180deg) translateZ(var(--size));
+      > span:nth-child(5) {
+        top: 20%;
+      }
+      > span:nth-child(6) {
+        bottom: 20%;
+      }
+    }
+  }
+}

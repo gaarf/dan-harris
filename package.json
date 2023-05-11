@@ -11,6 +11,7 @@
 		"lint": "eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"packageManager": "pnpm@8.5.0",
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^1.5.1",
 		"@sveltejs/adapter-static": "^2.0.2",

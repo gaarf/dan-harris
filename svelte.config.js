@@ -13,7 +13,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: '/my-skeleton-app'
+			base: '/dan-harris'
 		}
 	}
 };

@@ -131,6 +131,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 	}, [onBank, rolling, tick, roll]);
 
 	const gameOn = !!bets.find((b) => b.on && !b.paid);
+	const broke = cash < 1;
 
 	useEffect(() => {
 		setType(gameOn ? 'ANY_SEVEN' : 'PASS');
@@ -149,7 +150,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 			<form onSubmit={handleFormSubmit} className="flex w-full flex-col gap-4 p-4 card">
 				<label className="flex flex-col">
 					<span className="text-sm">Bet Type</span>
-					<select value={type} onChange={handleSelectChange} disabled={cash < 1}>
+					<select value={type} onChange={handleSelectChange} disabled={broke}>
 						<option value="PASS" disabled={gameOn}>
 							PASS
 						</option>
@@ -167,7 +168,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 						className="block"
 						type="range"
 						name="amount"
-						disabled={cash < 1}
+						disabled={broke}
 						min={1}
 						max={cash}
 						value={amount}
@@ -175,7 +176,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 					/>
 				</label>
 
-				<button className="btn variant-ghost-tertiary" type="submit" disabled={cash < 1}>
+				<button className="btn variant-ghost-tertiary" type="submit" disabled={broke}>
 					Bet!
 				</button>
 			</form>

@@ -12,26 +12,25 @@ interface DealerProps {
 }
 
 export function Dealer({ onBank, onPlay, game }: DealerProps) {
-	const { roll, cash, tick, table } = game;
-	const [formVis, setFormVis] = useState(false);
+	const { roll, cash, table, tick } = game;
 	const [type, setType] = useState<BetType>('PASS');
-	const [amount, setAmount] = useState(1);
+	const [amount, setAmount] = useState(Math.floor(cash / 2));
 	const [bets, setBets] = useState<Bet[]>([]);
 
 	const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
 		(event) => {
 			event.preventDefault();
 			try {
-				const newBets = [...bets, { amount, type, key: Date.now() }];
+				const newBets = [...bets.filter((bet) => !bet.paid), { amount, type, key: Date.now() }];
 				onBank(-amount, sum(...newBets.map((b) => b.amount)));
 				setBets(newBets);
 				say(`$${amount} on ${type}`);
 			} catch (error) {
 				console.error(error);
 			}
-			setFormVis(false);
+			setAmount(Math.floor((cash - amount) / 2));
 		},
-		[bets, amount, type, onBank]
+		[cash, bets, amount, type, onBank]
 	);
 
 	const handleSelectChange: React.FormEventHandler<HTMLSelectElement> = useCallback(
@@ -48,19 +47,12 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 		[]
 	);
 
-	const handleShowForm: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-		setAmount(Math.floor(cash/2));
-		setFormVis(true);
-		setBets((b) => b.filter((bet) => !bet.paid));
-	}, [cash]);
-
 	const [a, b] = roll;
 	const rolling = !a || !b;
 
 	useEffect(() => {
 		if (rolling) {
-			setFormVis(false);
-			say(crapSaying([0,0]));
+			say(crapSaying([0, 0]));
 		}
 	}, [rolling]);
 
@@ -154,66 +146,46 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 				))}
 			</ul>
 
-			{!formVis ? (
-				<div className="flex w-full gap-2">
-					<button
-						className="btn flex-1 variant-filled-tertiary"
-						onClick={handleShowForm}
-						disabled={rolling || cash < 1}
-					>
-						Add Bet
-					</button>
-					<button
-						className="btn flex-1 variant-filled-primary"
-						disabled={rolling || !table}
-						onClick={onPlay}
-					>
-						Roll Dice
-					</button>
-				</div>
-			) : (
-				<form onSubmit={handleFormSubmit} className="flex w-full flex-col gap-4 p-4 card">
-					<label className="flex flex-col">
-						<span className="text-sm">Type</span>
-						<select value={type} onChange={handleSelectChange}>
-							<option value="PASS" disabled={gameOn}>
-								PASS
-							</option>
-							<option value="DONT_PASS" disabled={gameOn}>
-								DON&apos;T PASS
-							</option>
-							<option value="ANY_SEVEN">ANY_SEVEN</option>
-							<option value="ANY_ELEVEN">ANY_ELEVEN</option>
-						</select>
-					</label>
+			<form onSubmit={handleFormSubmit} className="flex w-full flex-col gap-4 p-4 card">
+				<label className="flex flex-col">
+					<span className="text-sm">Bet Type</span>
+					<select value={type} onChange={handleSelectChange} disabled={cash < 1}>
+						<option value="PASS" disabled={gameOn}>
+							PASS
+						</option>
+						<option value="DONT_PASS" disabled={gameOn}>
+							DON&apos;T PASS
+						</option>
+						<option value="ANY_SEVEN">ANY_SEVEN</option>
+						<option value="ANY_ELEVEN">ANY_ELEVEN</option>
+					</select>
+				</label>
 
-					<label className="flex flex-col">
-						<span className="text-sm">Amount: ${amount}</span>
-						<input
-							className="block"
-							type="range"
-							name="amount"
-							min={1}
-							max={cash}
-							value={amount}
-							onChange={handleRangeChange}
-						/>
-					</label>
+				<label className="flex flex-col">
+					<span className="text-sm">Amount: ${amount}</span>
+					<input
+						className="block"
+						type="range"
+						name="amount"
+						disabled={cash < 1}
+						min={1}
+						max={cash}
+						value={amount}
+						onChange={handleRangeChange}
+					/>
+				</label>
 
-					<div className="flex flex-1 gap-2">
-						<button
-							className="btn btn-sm variant-ringed flex-1"
-							type="reset"
-							onClick={() => setFormVis(false)}
-						>
-							Cancel
-						</button>
-						<button className="btn btn-sm variant-filled-secondary flex-1" type="submit">
-							Bet!
-						</button>
-					</div>
-				</form>
-			)}
+				<button className="btn variant-ghost-tertiary" type="submit" disabled={cash < 1}>
+					Bet!
+				</button>
+			</form>
+			<button
+				className="btn variant-filled-primary w-full"
+				onClick={onPlay}
+				disabled={rolling || !table}
+			>
+				Roll Dice
+			</button>
 		</div>
 	);
 }

@@ -168,7 +168,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 						<strong>$</strong>
 						<input
 							type="number"
-							className='p-0 px-1 mx-px bg-transparent border-none'
+							className='p-0 px-1 mx-px bg-transparent border-none text-current'
 							name="amount"
 							disabled={broke}
 							min={1}
@@ -177,7 +177,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 							onChange={handleRangeChange}
 						/>
 						<input
-							className="flex-1"
+							className="flex-1 appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:variant-soft-surface [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:aspect-square [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:variant-filled-tertiary"
 							type="range"
 							disabled={broke}
 							min={1}

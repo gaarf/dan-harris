@@ -149,7 +149,7 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 
 			<form onSubmit={handleFormSubmit} className="flex w-full flex-col gap-4 p-4 card">
 				<label className="flex flex-col">
-					<span className="text-sm">Bet Type</span>
+					<span className="text-sm">Bet Type:</span>
 					<select value={type} onChange={handleSelectChange} disabled={broke}>
 						<option value="PASS" disabled={gameOn}>
 							PASS
@@ -163,17 +163,29 @@ export function Dealer({ onBank, onPlay, game }: DealerProps) {
 				</label>
 
 				<label className="flex flex-col">
-					<span className="text-sm">Amount: ${amount}</span>
-					<input
-						className="block"
-						type="range"
-						name="amount"
-						disabled={broke}
-						min={1}
-						max={cash}
-						value={amount}
-						onChange={handleRangeChange}
-					/>
+					<span className="text-sm">Amount:</span>
+					<div className="flex items-center">
+						<strong>$</strong>
+						<input
+							type="number"
+							className='p-0 px-1 mx-px bg-transparent border-none'
+							name="amount"
+							disabled={broke}
+							min={1}
+							max={cash}
+							value={amount}
+							onChange={handleRangeChange}
+						/>
+						<input
+							className="flex-1"
+							type="range"
+							disabled={broke}
+							min={1}
+							max={cash}
+							value={amount}
+							onChange={handleRangeChange}
+						/>
+					</div>
 				</label>
 
 				<button className="btn variant-ghost-tertiary" type="submit" disabled={broke}>
